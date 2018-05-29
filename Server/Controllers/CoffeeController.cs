@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WiredBrain.Helpers;
 using WiredBrain.Models;
@@ -6,7 +8,7 @@ using WiredBrain.Models;
 namespace WiredBrain.Controllers
 {
     [Route("[controller]")]
-    public class CoffeeController: Controller
+    public class CoffeeController : Controller
     {
         private readonly OrderChecker _orderChecker;
 
@@ -23,12 +25,22 @@ namespace WiredBrain.Controllers
         }
 
         [HttpGet("{orderNo}")]
-        public IActionResult GetUpdateForOrder(int orderNo)
+        public async void GetUpdateForOrder(int orderNo)
         {
-            var result = _orderChecker.GetUpdate(orderNo);
-            if (result.New)
-                return new ObjectResult(result);
-            return NoContent();
+            Response.ContentType = "text/event-stream";
+            CheckResult result;
+
+            do
+            {
+                result = _orderChecker.GetUpdate(orderNo);
+                Thread.Sleep(3000);
+                if (!result.New) continue;
+
+                await HttpContext.Response.WriteAsync(result.Update);
+                await HttpContext.Response.Body.FlushAsync();
+            } while (!result.Finished);
+
+            Response.Body.Close();
         }
     }
 }

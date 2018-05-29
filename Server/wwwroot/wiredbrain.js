@@ -1,9 +1,9 @@
 ﻿listen = (id) => {
-    var eventSource = new EventSource(`/Coffee/GetUpdateForOrder/${id}`);
-    eventSource.addEventListener("message", function (event) {
-        const data = JSON.parse(event.data);
-        
-    }, false);
+    var eventSource = new EventSource(`/Coffee/${id}`);
+    eventSource.onmessage = (event) => {
+        const statusDiv = document.getElementById("status");
+        statusDiv.innerHTML = event.data;
+    };
 }
 
 document.getElementById("submit").addEventListener("click", e => {
@@ -16,5 +16,5 @@ document.getElementById("submit").addEventListener("click", e => {
             body: { product, size }
         })
         .then(response => response.text())
-        .then(text => listen(id));
+        .then(text => listen(text));
 });
