@@ -1,8 +1,9 @@
 ﻿listen = (id) => {
-    var eventSource = new EventSource(`/Coffee/${id}`);
-    eventSource.onmessage = (event) => {
+    const socket = new WebSocket(`ws://localhost:60907/Coffee/${id}`);
+
+    socket.onmessage = event => {
         const statusDiv = document.getElementById("status");
-        statusDiv.innerHTML = event.data;
+        statusDiv.innerHTML = JSON.parse(event.data);
     };
 }
 
