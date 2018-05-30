@@ -19,6 +19,7 @@ namespace WiredBrain
             services.AddMvc();
             services.AddSingleton(new Random());
             services.AddSingleton<OrderChecker>();
+            services.AddHttpContextAccessor();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
