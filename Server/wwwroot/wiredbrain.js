@@ -1,10 +1,16 @@
 ﻿listen = (id) => {
-    const socket = new WebSocket(`ws://localhost:60907/Coffee/${id}`);
+    const connection = new signalR.HubConnectionBuilder()
+        .withUrl("/coffeehub")
+        .build();
 
-    socket.onmessage = event => {
-        const statusDiv = document.getElementById("status");
-        statusDiv.innerHTML = JSON.parse(event.data);
-    };
+    connection.on("ReceiveCoffeeUpdate", (update) => {
+            const statusDiv = document.getElementById("status");
+            statusDiv.innerHTML = update;
+        }
+    );
+
+    connection.start()
+        .catch(err => console.error(err.toString()));
 }
 
 document.getElementById("submit").addEventListener("click", e => {
@@ -17,5 +23,5 @@ document.getElementById("submit").addEventListener("click", e => {
             body: { product, size }
         })
         .then(response => response.text())
-        .then(text => listen(text));
+        .then(id => listen(id));
 });

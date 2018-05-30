@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using WiredBrain.Helpers;
+using WiredBrain.Hubs;
 
 namespace WiredBrain
 {
@@ -20,6 +21,7 @@ namespace WiredBrain
             services.AddSingleton(new Random());
             services.AddSingleton<OrderChecker>();
             services.AddHttpContextAccessor();
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -37,6 +39,8 @@ namespace WiredBrain
             };
             app.UseWebSockets(webSocketOptions);
             app.UseStaticFiles();
+
+            app.UseSignalR(routes => routes.MapHub<CoffeeHub>("/coffeehub"));
             app.UseMvc();
         }
     }
