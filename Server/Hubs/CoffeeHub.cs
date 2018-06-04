@@ -22,9 +22,9 @@ namespace WiredBrain.Hubs
                 result = _orderChecker.GetUpdate(orderId);
                 Thread.Sleep(2000);
                 if (result.New)
-                    await Clients.Caller.SendAsync("ReceiveCoffeeUpdate", result.Update);
+                    await Clients.Caller.SendAsync("ReceiveOrderUpdate", result.Update);
             } while (!result.Finished);
-
+            await Clients.Caller.SendAsync("Finished");
         }
     }
 }

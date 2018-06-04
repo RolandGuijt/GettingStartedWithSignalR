@@ -1,27 +1,49 @@
-﻿listen = (id) => {
-    const connection = new signalR.HubConnectionBuilder()
+﻿WebSocket = undefined;
+//EventSource = undefined;
+
+let connection = null;
+
+setupConnection = () => {
+    connection = new signalR.HubConnectionBuilder()
         .withUrl("/coffeehub")
         .build();
 
-    connection.on("ReceiveCoffeeUpdate", (update) => {
+    connection.on("ReceiveOrderUpdate", (update) => {
             const statusDiv = document.getElementById("status");
             statusDiv.innerHTML = update;
         }
     );
 
+    connection.on("NewOrder", function(order) {
+            var statusDiv = document.getElementById("status");
+            statusDiv.innerHTML = "Someone ordered an " + order.product;
+        }
+    );
+
+    connection.on("finished", function() {
+            connection.stop();
+        }
+    );
+
     connection.start()
-        .catch(err => console.error(err.toString()));
-}
+        .catch(err => console.error(err.toString())); 
+};
+
+setupConnection();
 
 document.getElementById("submit").addEventListener("click", e => {
     e.preventDefault();
     const product = document.getElementById("product").value;
     const size = document.getElementById("size").value;
+
     fetch("/Coffee",
         {
             method: "POST",
-            body: { product, size }
+            body: JSON.stringify({ product, size }),
+            headers: {
+               'content-type': 'application/json'
+            }
         })
         .then(response => response.text())
-        .then(id => listen(id));
+        .then(id =>  connection.invoke("GetUpdateForOrder", id));
 });

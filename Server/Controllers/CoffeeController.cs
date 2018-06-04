@@ -5,7 +5,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using WiredBrain.Helpers;
+using WiredBrain.Hubs;
 using WiredBrain.Models;
 
 namespace WiredBrain.Controllers
@@ -15,16 +17,19 @@ namespace WiredBrain.Controllers
     {
         private readonly OrderChecker _orderChecker;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IHubContext<CoffeeHub> coffeeHub;
 
-        public CoffeeController(OrderChecker orderChecker, IHttpContextAccessor httpContextAccessor)
+        public CoffeeController(OrderChecker orderChecker, IHttpContextAccessor httpContextAccessor, IHubContext<CoffeeHub> coffeeHub)
         {
             _orderChecker = orderChecker;
             _httpContextAccessor = httpContextAccessor;
+            this.coffeeHub = coffeeHub;
         }
 
         [HttpPost]
-        public IActionResult OrderCoffee(Order order)
+        public async Task<IActionResult> OrderCoffee([FromBody]Order order)
         {
+            await coffeeHub.Clients.All.SendAsync("NewOrder", order);
             //Start process for order
             return Accepted(1); //return order id 1
         }

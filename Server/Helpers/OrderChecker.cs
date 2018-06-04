@@ -28,6 +28,8 @@ namespace WiredBrain.Helpers
                         Update = Status[index],
                         Finished = Status.Length - 1 == index
                     };
+                    if (result.Finished)
+                        index = 0;
                     return result;
                 }
             }
