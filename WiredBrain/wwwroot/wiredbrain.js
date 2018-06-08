@@ -1,5 +1,6 @@
-﻿WebSocket = undefined;
+﻿// WebSocket = undefined;
 //EventSource = undefined;
+//, signalR.HttpTransportType.LongPolling
 
 let connection = null;
 
@@ -45,5 +46,5 @@ document.getElementById("submit").addEventListener("click", e => {
             }
         })
         .then(response => response.text())
-        .then(id =>  connection.invoke("GetUpdateForOrder", id));
+        .then(id => connection.invoke("GetUpdateForOrder", id));
 });

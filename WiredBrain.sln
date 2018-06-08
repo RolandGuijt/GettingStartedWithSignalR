@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2000
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WiredBrain", "WiredBrain\WiredBrain.csproj", "{18437146-40D4-41D5-B4BE-0BC238DC66CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WiredBrain", "WiredBrain\WiredBrain.csproj", "{18437146-40D4-41D5-B4BE-0BC238DC66CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleClient", "ConsoleClient\ConsoleClient.csproj", "{E4196EA3-C6A4-4F68-B254-BA8325976661}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{18437146-40D4-41D5-B4BE-0BC238DC66CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{18437146-40D4-41D5-B4BE-0BC238DC66CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{18437146-40D4-41D5-B4BE-0BC238DC66CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4196EA3-C6A4-4F68-B254-BA8325976661}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4196EA3-C6A4-4F68-B254-BA8325976661}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4196EA3-C6A4-4F68-B254-BA8325976661}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4196EA3-C6A4-4F68-B254-BA8325976661}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

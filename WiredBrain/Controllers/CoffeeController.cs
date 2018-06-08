@@ -17,7 +17,7 @@ namespace WiredBrain.Controllers
     {
         private readonly IHubContext<CoffeeHub> coffeeHub;
 
-        public CoffeeController(OrderChecker orderChecker, IHttpContextAccessor httpContextAccessor, IHubContext<CoffeeHub> coffeeHub)
+        public CoffeeController(IHubContext<CoffeeHub> coffeeHub)
         {
             this.coffeeHub = coffeeHub;
         }
