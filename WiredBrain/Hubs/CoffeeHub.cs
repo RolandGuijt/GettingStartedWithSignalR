@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using WiredBrain.Helpers;
 
@@ -21,9 +22,10 @@ namespace WiredBrain.Hubs
             do
             {
                 result = _orderChecker.GetUpdate(orderId);
-                Thread.Sleep(2000);
+                Thread.Sleep(1000);
                 if (result.New)
-                    await Clients.Caller.SendAsync("ReceiveOrderUpdate", result.Update);
+                    await Clients.Caller.SendAsync("ReceiveOrderUpdate", 
+                        result.Update);
             } while (!result.Finished);
             await Clients.Caller.SendAsync("Finished");
         }

@@ -23,11 +23,12 @@ namespace WiredBrain.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> OrderCoffee([FromBody]Order order)
+        public async Task<IActionResult> OrderCoffee(
+            [FromBody]Order order)
         {
             await coffeeHub.Clients.All.SendAsync("NewOrder", order);
-            //Start process for order
-            return Accepted(1); //return order id 1
+            //Save order somewhere and get order id
+            return Accepted(1); //return order id
         }
     }
 }
