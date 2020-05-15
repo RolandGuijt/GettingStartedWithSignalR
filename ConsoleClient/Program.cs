@@ -12,7 +12,7 @@ namespace ConsoleClient
             Console.ReadKey();
             var connection = new HubConnectionBuilder()
                 .WithUrl("http://localhost:60907/coffeehub")
-                .AddMessagePackProtocol()
+                //.AddMessagePackProtocol()
                 .Build();
 
             connection.On<Order>("NewOrder", (order) => 

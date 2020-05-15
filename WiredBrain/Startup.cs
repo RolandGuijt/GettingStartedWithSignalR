@@ -13,11 +13,11 @@ namespace WiredBrain
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddControllers();
             services.AddSingleton(new Random());
             services.AddSingleton<OrderChecker>();
             services.AddHttpContextAccessor();
-            services.AddSignalR().AddMessagePackProtocol();
+            services.AddSignalR();//.AddMessagePackProtocol();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -28,10 +28,14 @@ namespace WiredBrain
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseRouting();
             app.UseFileServer();
 
-            app.UseSignalR(routes => routes.MapHub<CoffeeHub>("/coffeehub"));
-            app.UseMvc();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+                endpoints.MapHub<CoffeeHub>("/coffeehub");
+            });
         }
     }
 }
